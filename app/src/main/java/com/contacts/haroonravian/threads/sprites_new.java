@@ -1,47 +1,82 @@
 package com.contacts.haroonravian.threads;
 
-/**
- * Created by Makki Anjum on 22/11/2018.
- */
+import android.content.Context;
+import android.widget.Toast;
 
 public class sprites_new extends Thread {
     int x;
     int y;
-    int r;
-    int dx;
-    int dy;
-    int height;
+    int w;
+    int h;
+    int yy;
     int width;
-    int red, green, blue;
+    int height;
+    int left;
+    int right;
+    int randx;
+    boolean m;
+    Context context;
 
-    sprites_new(int x, int y, int r, int dx, int dy, int height, int width, int red, int green, int blue) {
+    sprites_new(Context context) {
+        this.context = context;
+    }
+
+    sprites_new() {
+
+    }
+
+    sprites_new(int x, int y, int w, int h, int yy, int width, int height, int left,
+                int right, boolean m, int ranx) {
         this.x = x;
         this.y = y;
-        this.r = r;
-        this.dx = dx;
-        this.dy = dy;
+        this.w = w;
+        this.h = h;
+        this.yy = yy;
         this.height = height;
         this.width = width;
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
+        this.left = left;
+        this.right = right;
+        this.m = m;
     }
 
     public void run() {
-        while (true) {
-            this.x = this.x + this.dx;
-            this.y = this.y + this.dy;
+        while (!Thread.currentThread().isInterrupted()) {
 
-            if (this.y >= this.height || this.y < 50) {
-                this.dy = -1 * this.dy;
+            if (this.y < this.height) {
+                this.y = this.y + this.yy;
+                this.h = this.y + 300;
+            }
+            if (this.y >= this.height) {
+                this.y = -290;
+                this.h = this.y + 300;
+                if (this.m == true) {
+                    this.randx = ((int) (Math.random() * width));
+                }
+                this.yy = (1 + (int) (Math.random() * 4));
             }
 
-            if (this.x >= this.width || this.x < 50) {
-                this.dx = -1 * this.dx;
+            if (randx < left) {
+                this.x = left / 3;
+                this.w = (left / 3) + (left / 3);
+            } else if (randx > left && randx < right) {
+                this.x = (left) + (left / 3);
+                this.w = (left) + (left / 3) + (left / 3);
+            } else if (randx > right) {
+                this.x = (right) + (left / 3);
+                this.w = (right) + (left / 3) + (left / 3);
+            } else {
+
+
             }
 
             try {
-                Thread.sleep(7);
+
+                this.x = left / 3;
+                this.w = (left / 3) + (left / 3);
+
+
+                Thread.sleep(4);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
